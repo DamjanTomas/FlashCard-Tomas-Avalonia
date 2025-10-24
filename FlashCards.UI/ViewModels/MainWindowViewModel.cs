@@ -7,6 +7,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using FlashCards.UI.Views;
+using System.Collections.Generic;
 
 namespace FlashCards.UI.ViewModels;
 
@@ -14,6 +16,7 @@ public partial class MainWindowViewModel : ObservableObject
 {
     private readonly ApplicationDataContext? dbContext;
 
+    #region Properties
     [ObservableProperty]
     private ObservableCollection<CardViewModel> cards = new();
 
@@ -32,10 +35,38 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private string searchText = string.Empty;
 
-    // (dieses Feld repräsentiert keinen globalen visibility state; bleibt falls du es brauchst)
+    [ObservableProperty]
+    private int totalTestCards;
+
     [ObservableProperty]
     private bool isAnswerVisible;
 
+    [ObservableProperty]
+    private bool isInTestMode;
+
+    [ObservableProperty]
+    private bool isTestFinished;
+
+    [ObservableProperty]
+    private CardViewModel? currentTestCard;
+
+    [ObservableProperty]
+    private bool isAnswerVisibleInTest;
+
+    [ObservableProperty]
+    private int currentTestIndex;
+
+    [ObservableProperty]
+    private int correctAnswers;
+
+    #endregion
+
+    #region Commands
+    public IRelayCommand StartTestCommand { get; }
+    public IRelayCommand ShowTestAnswerCommand { get; }
+    public IRelayCommand CorrectTestAnswerCommand { get; }
+    public IRelayCommand WrongTestAnswerCommand { get; }
+    public IRelayCommand ExitTestCommand { get; }
     public IRelayCommand AddCardAsyncCommand { get; }
     public IRelayCommand UpdateCardAsyncCommand { get; }
     public IRelayCommand<CardViewModel> DeleteCardAsyncCommand { get; }
@@ -43,20 +74,14 @@ public partial class MainWindowViewModel : ObservableObject
     public IRelayCommand ClearInputsCommand { get; }
     public IRelayCommand FilterAsyncCommand { get; }
     public IRelayCommand ClearFilterAsyncCommand { get; }
+    public IRelayCommand OpenTestWindowCommand { get; }
+    #endregion
+
+    private List<CardViewModel> testCards = new();
 
     public MainWindowViewModel(IDbContextFactory<ApplicationDataContext> contextFactory, IConfiguration configuration)
     {
         dbContext = contextFactory.CreateDbContext();
-
-        // Stelle sicher, dass DB/Tables existieren (vermeidet erste-run Sqlite-Ausnahme)
-        try
-        {
-            dbContext.Database.EnsureCreated();
-        }
-        catch
-        {
-            // optional Logging
-        }
 
         AddCardAsyncCommand = new RelayCommand(async () => await AddCardAsync());
         UpdateCardAsyncCommand = new RelayCommand(async () => await UpdateCardAsync());
@@ -65,6 +90,12 @@ public partial class MainWindowViewModel : ObservableObject
         ClearInputsCommand = new RelayCommand(ClearInputs);
         FilterAsyncCommand = new RelayCommand(async () => await FilterAsync());
         ClearFilterAsyncCommand = new RelayCommand(async () => await ClearFilterAsync());
+        StartTestCommand = new RelayCommand(StartTest);
+        ShowTestAnswerCommand = new RelayCommand(() => IsAnswerVisibleInTest = true);
+        CorrectTestAnswerCommand = new RelayCommand(CorrectAnswer);
+        WrongTestAnswerCommand = new RelayCommand(WrongAnswer);
+        ExitTestCommand = new RelayCommand(ExitTest);
+
 
         _ = LoadDataAsync();
     }
@@ -132,7 +163,6 @@ public partial class MainWindowViewModel : ObservableObject
         QuestionInput = string.Empty;
         AnswerInput = string.Empty;
         TagsInput = string.Empty;
-        // SelectedCard bleibt unverändert – falls du das möchtest setze SelectedCard = null;
     }
 
     private async Task FilterAsync()
@@ -172,6 +202,50 @@ public partial class MainWindowViewModel : ObservableObject
         await LoadDataAsync();
     }
 
+    private void StartTest()
+    {
+        if (Cards.Count == 0) return;
+
+        IsInTestMode = true;
+        IsTestFinished = false;
+        CorrectAnswers = 0;
+        CurrentTestIndex = 0;
+        CurrentTestCard = Cards[CurrentTestIndex];
+        IsAnswerVisibleInTest = false;
+    }
+
+    private void CorrectAnswer()
+    {
+        CorrectAnswers++;
+        NextTestCard();
+    }
+
+    private void WrongAnswer()
+    {
+        NextTestCard();
+    }
+
+    private void NextTestCard()
+    {
+        CurrentTestIndex++;
+        if (CurrentTestIndex < Cards.Count)
+        {
+            CurrentTestCard = Cards[CurrentTestIndex];
+            IsAnswerVisibleInTest = false;
+        }
+        else
+        {
+            IsTestFinished = true;
+        }
+    }
+
+    private void ExitTest()
+    {
+        IsInTestMode = false;
+        IsTestFinished = false;
+    }
+
+
     private async Task LoadDataAsync()
     {
         if (dbContext == null) return;
@@ -186,7 +260,7 @@ public partial class MainWindowViewModel : ObservableObject
                 Question = c.Question,
                 Answer = c.Answer,
                 Tags = c.Tags,
-                IsAnswerVisible = false // wichtig: beim Laden nur Frage anzeigen
+                IsAnswerVisible = false
             });
         }
     }
