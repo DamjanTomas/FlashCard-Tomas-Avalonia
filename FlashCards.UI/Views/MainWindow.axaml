@@ -119,6 +119,7 @@
         </ScrollViewer>
 
         <StackPanel Grid.Column="2" Margin="10,0,0,0">
+            <TextBlock Text="Add a new Card: "/>
             <TextBlock Text="Question:"/>
             <TextBox Text="{Binding QuestionInput, Mode=TwoWay}" Margin="0,0,0,5"/>
             <TextBlock Text="Answer:"/>
