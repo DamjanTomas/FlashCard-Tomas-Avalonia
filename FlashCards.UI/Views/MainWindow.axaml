@@ -1,0 +1,178 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:FlashCards.UI.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DesignWidth="800"
+        d:DesignHeight="450"
+        x:Class="FlashCards.UI.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="FlashCards.UI">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="Window">
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#111827"/>
+            <Setter Property="FontFamily" Value="Segoe UI, Arial"/>
+        </Style>
+
+        <Style Selector="Border.cardItem">
+            <Setter Property="Background" Value="#F9FAFB"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="BorderBrush" Value="#E5E7EB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="TextBlock.questionText">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+        <Style Selector="TextBlock.answerText">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+
+        <Style Selector="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="Text" Value="rgba(255, 255, 255, 0)"/> 
+            <Setter Property="Foreground" Value="#FFFFFFFF"/> 
+            <Setter Property="BorderBrush" Value="#C0C2C5FF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+
+        <Style Selector="Button:not(.cardButton)">
+            <Setter Property="Background" Value="#2563EB"/>
+            <Setter Property="Foreground" Value="#ffffffff"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button:not(.cardButton):pointerover">
+            <Setter Property="Background" Value="#3B82F6"/>
+        </Style>
+
+        <Style Selector="Button:not(.cardButton):pressed">
+            <Setter Property="Background" Value="#1D4ED8"/>
+        </Style>
+
+        <Style Selector="Button:disabled">
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+
+        <!-- Card Buttons (Edit/Delete) -->
+        <Style Selector="Button.cardButton">
+            <Setter Property="Background" Value="#2563EB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#ffffffff"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2"/>
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.cardButton:pointerover">
+            <Setter Property="Background" Value="#3B82F6"/>
+        </Style>
+
+        <Style Selector="Button.cardButton:pressed">
+            <Setter Property="Background" Value="#1D4ED8"/>
+        </Style>
+
+        <Style Selector="ScrollViewer">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="ItemsControl">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Cards}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Classes="cardItem">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Question}" Classes="questionText"/>
+                                <TextBlock Text="{Binding Answer}" Classes="answerText"/>
+                                <TextBlock Text="{Binding Tags}" FontSize="10" Foreground="DarkGray"/>
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <Button Content="Edit"
+                                            Classes="cardButton"
+                                            Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).EditSelectedCommand}"
+                                            CommandParameter="{Binding}"/>
+                                    <Button Content="Delete"
+                                            Classes="cardButton"
+                                            Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).DeleteCardAsyncCommand}"
+                                            CommandParameter="{Binding}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <StackPanel Grid.Column="2" Margin="10,0,0,0">
+            <TextBlock Text="Question:"/>
+            <TextBox Text="{Binding QuestionInput, Mode=TwoWay}" Margin="0,0,0,5"/>
+
+            <TextBlock Text="Answer:"/>
+            <TextBox Text="{Binding AnswerInput, Mode=TwoWay}" Margin="0,0,0,5"/>
+
+            <TextBlock Text="Tags:"/>
+            <TextBox Text="{Binding TagsInput, Mode=TwoWay}" Margin="0,0,0,10"/>
+
+            <StackPanel Orientation="Horizontal" Spacing="6">
+                <Button Content="Add" Command="{Binding AddCardAsyncCommand}"/>
+                <Button Content="Update"
+                        Command="{Binding UpdateCardAsyncCommand}"
+                        IsEnabled="{Binding SelectedCard}"/>
+                <Button Content="Clear" Command="{Binding ClearInputsCommand}"/>
+            </StackPanel>
+
+            <TextBlock Text="Search:" Margin="0,20,0,5"/>
+            <TextBox Text="{Binding SearchText, Mode=TwoWay}" Margin="0,0,0,5"/>
+            <StackPanel Orientation="Horizontal" Spacing="6">
+                <Button Content="Filter" Command="{Binding FilterAsyncCommand}"/>
+                <Button Content="Clear Filter" Command="{Binding ClearFilterAsyncCommand}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,16 @@
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\bin\Debug\net9.0\FlashCards.Data.deps.json
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\bin\Debug\net9.0\FlashCards.Data.runtimeconfig.json
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\bin\Debug\net9.0\FlashCards.Data.dll
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\bin\Debug\net9.0\FlashCards.Data.pdb
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\FlashCards.Data.csproj.AssemblyReference.cache
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\FlashCards.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\FlashCards.Data.AssemblyInfoInputs.cache
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\FlashCards.Data.AssemblyInfo.cs
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\FlashCards.Data.csproj.CoreCompileInputs.cache
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\FlashCards.Data.sourcelink.json
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\FlashCards.Data.dll
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\refint\FlashCards.Data.dll
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\FlashCards.Data.pdb
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\FlashCards.Data.genruntimeconfig.cache
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\obj\Debug\net9.0\ref\FlashCards.Data.dll
+C:\Users\damja\OneDrive\Dokumente\Schule HTL\5.Klasse\Programmieren\FlashCard-Tomas-Avalonia\FlashCards.Data\bin\Debug\net9.0\appsettings.json
